@@ -1,0 +1,221 @@
+<div fxLayout="row wrap " fxFlex="100" fxLayoutAlign="start start" class="PageContainer">
+
+
+  <div fxFlex="20" fxHide.lt-md="true">
+    <mat-card  fxLayout="row wrap" fxFlex="100" style="padding:10px;">
+        <div fxLayout="row wrap" fxFlex="100" style="border-bottom: 1px solid #f0f0f0;">
+            
+              <div fxLayout="row wrap " fxFlex="100">
+                <div fxFlex="100">
+                    <div  fxFlex="100">
+                        <h4 fxLayoutAlign="start start"  (click)="ProductCategory(categoryId, 0,0,0)" style="cursor: pointer; font-weight: 600; margin-bottom:5px;">
+                            {{CategoryName}} </h4>
+                    </div>
+     
+                </div>
+                <div class="catgry" fxFlex="100" *ngFor="let pc of productSubCategoriesDisplayed;" (click)="ProductCategory(categoryId,pc.subCategoryId,0,0)"
+                  [ngClass]="{'active':pc.subCategoryId  == subCatId,'inactive':pc.subCategoryId  != subCatId}"  >
+                  <span>{{pc.subCategoryName}}</span>
+                </div>
+          
+                <div class="catgry" fxFlex="100" (click)="ViewMoreSubCategory()" *ngIf="remainingSubCategoryCount>0" style="background-color:rgb(244, 244, 244);">
+                  <span>+ {{remainingSubCategoryCount}} more</span>
+                </div>
+              </div>
+
+              <div fxFlex="100" fxLayout="row wrap" style="margin-top:15px;" *ngIf="priceshow">
+                <div  fxFlex="100">
+                    <h4 fxLayoutAlign="start start" style="margin-bottom:5px; font-weight: 600;" >
+                      Price </h4>
+                </div>
+              <!-- <h4 fxFlex="100" >
+                  PRICE
+              </h4> -->
+              <!-- <mat-slider fxFlex="100" thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="0" max="{{maxPrice}} " (change)="onChangePrice($event)"></mat-slider>
+              <p fxFlex="100" fxLayoutAlign="end end" ><b>₹ {{PriceRange}} </b></p> -->
+              <!-- <div  fxFlex="100" class="ng5slider"  >
+                  <ng5-slider  [(value)]="minValue" [(highValue)]="maxValue" [options]="options" (mouseup)="sliderEvent(minValue,maxValue)" ></ng5-slider>
+              </div> -->
+              </div>
+
+          </div>
+
+    </mat-card> 
+  </div>
+
+  <div fxFlex="80" fxFlex.lt-md="100" style="padding-left: 10px;">
+    <div fxLayout="row wrap " fxFlex="100">
+      <div fxFlex="100" fxFlex.lt-md="70" style="padding-left: 10px;">
+            <h3 style="margin-bottom: 5px;">{{CategoryName}} &nbsp;
+            <span *ngIf="catheading">/ {{subcatheading}}</span></h3>
+      </div>
+      <div fxFlex="100" fxHide.gt-sm="Hide" fxFlex.lt-md="30" fxLayoutAlign="end center"  >
+            <button class="GoldBtn" fxLayoutAlign="end center" style="padding:10px 20px" [matMenuTriggerFor]="appMenu">
+                Filter
+               </button>
+             <mat-menu #appMenu="matMenu">
+                 <div fxLayout="row wrap" fxFlex="100" style="border-bottom: 1px solid #f0f0f0; padding:5px 10px;">
+               
+                     <div fxLayout="row wrap " fxFlex="100">
+                       <div fxFlex="100">
+                           <div  fxFlex="100">
+                               <h4 fxLayoutAlign="start start"  (click)="ProductCategory(categoryId, 0,0,0)" style="cursor: pointer; font-weight: 600; margin-bottom:5px;">
+                                   {{CategoryName}} </h4>
+                           </div>
+            
+                       </div>
+                       <div class="catgry" fxFlex="100" *ngFor="let pc of productSubCategoriesDisplayed;" (click)="ProductCategory(categoryId,pc.subCategoryId,0,0)"
+                         [ngClass]="{'active':pc.subCategoryId  == subCatId,'inactive':pc.subCategoryId  != subCatId}"  >
+                         <span>{{pc.subCategoryName}}</span>
+                       </div>
+                 
+                       <div class="catgry" fxFlex="100" (click)="ViewMoreSubCategory()" *ngIf="remainingSubCategoryCount>0" style="background-color:rgb(244, 244, 244);">
+                         <span>+ {{remainingSubCategoryCount}} more</span>
+                       </div>
+                     </div>
+       
+                     <div fxFlex="100" fxLayout="row wrap" style="margin-top:15px;" *ngIf="priceshow">
+                       <div  fxFlex="100">
+                           <h4 fxLayoutAlign="start start" style="margin-bottom:5px; font-weight: 600;" >
+                             Price </h4>
+                       </div>
+                     <!-- <h4 fxFlex="100" >
+                         PRICE
+                     </h4> -->
+                     <!-- <mat-slider fxFlex="100" thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="0" max="{{maxPrice}} " (change)="onChangePrice($event)"></mat-slider>
+                     <p fxFlex="100" fxLayoutAlign="end end" ><b>₹ {{PriceRange}} </b></p> -->
+                     <!-- <div  fxFlex="100" class="ng5slider"  >
+                         <ng5-slider  [(value)]="minValue" [(highValue)]="maxValue" [options]="options" (mouseup)="sliderEvent(minValue,maxValue)" ></ng5-slider>
+                     </div> -->
+                     </div>
+       
+                 </div>
+               </mat-menu> 
+    </div>
+      <div fxFlex="100" fxLayoutAlign="center center" *ngIf="show">
+        <mat-progress-spinner [color]="color" [mode]="mode" [strokeWidth]="3" [value]="value"></mat-progress-spinner>
+      </div>
+      <div fxFlex="100" *ngIf="!show">
+        <mat-card-content style="padding: 0px;">
+          <div fxLayout="row wrap" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollUpDistance]="1.5" [infiniteScrollThrottle]="50" (scrolled)="GetNextRecords()">
+            <!-- <div> -->
+            <div fxFlex="25" fxFlex.sm="33.33" fxFlex.xs="100" style="padding: 5px;"  *ngFor="let pi of productCategoryinfo;let i=index  ">
+              <mat-card fxFlex="100" class="wBg" fxLayout="row wrap" class="CategoryCard">
+
+                <div class="1" fxLayout="row wrap" fxFlex="100" (click)="gotoDetailView(pi.id)">
+                  <div fxFlex="100" style="padding:10px; position: relative;" fxLayoutAlign="center center">
+
+
+                    <div class="tile" *ngIf="pi.productImageList.length > 0" [ngStyle]="{'background-image':'url(' + pi.productImageList[0].productImagePath + ')','background-repeat':'no-repeat','background-size':'contain','background-position':'center'}">
+                    </div>
+                    <div class="tile" *ngIf="pi.productImageList.length == 0" style="background-image:url('assets/images/default.png'); background-repeat:no-repeat; background-size:contain; background-position:center;">
+                    </div>
+                  </div>
+                  <div fxFlex="100">
+                    <mat-card-content style="padding: 0px 10px;">
+                      <div fxLayout="row wrap" fxFlex="100" fxLayoutAlign="center center">
+                        <div class="btmrow" fxLayout="row wrap" fxLayoutAlign="start start" style="overflow: hidden;">
+                          <div fxFlex="100">
+                            <p class="ma-0 productName">{{pi.productName}}</p>
+                          </div>
+                          <div fxFlex="100" class="mat-text-primary text-xl" style=" padding: 5px 0px;">
+                            <span class="price">
+                              <b> {{pi.currency}} {{ (pi.price - pi.discountPrice) | number:'1.2-2'}}</b>
+                            </span>
+                            &nbsp;
+                            <span class="strikethrough mat-text-muted text-sm" *ngIf="pi.discountPrice"> {{ pi.price | number:'2.2-2' }}</span>
+
+                          </div>
+
+                          <div fxFlex="100">
+                            <p class="ma-0 pa-0 text-md descript">
+                              {{ pi.productDescription }}
+
+                            </p>
+                          </div>
+
+
+                          <div fxFlex="100">
+                            <p class="ma-0 pa-0 text-md descript" *ngIf="pi.ReviewCount">
+                              <span class="rating">{{pi.starRating| number:'1.1-2'}}
+                                <span _ngcontent-c20="" class="starRat ng-star-inserted">★</span>
+                              </span>
+
+                              <span class="px-1">({{pi.reviewCount}})</span>
+
+                            </p>
+                            <p class="ma-0 pa-0 text-md descript" *ngIf="!pi.reviewCount">
+                              No reviews yet..
+                            </p>
+
+                          </div>
+                        </div>
+                      </div>
+
+                    </mat-card-content>
+                  </div>
+                </div>
+                <div class="2" fxLayout="row wrap" fxFlex="100" *ngIf="pi.quantity==0">
+                    <div fxFlex="100" fxLayoutAlign="center center" style="height:40px;">
+                        <p class="Black" style="margin: 0px; padding: 0px;"> Notify Me </p>
+                      </div>
+                      <div fxFlex="100" fxLayoutAlign="center center">
+                          <button  mat-raised-button class="GoldBtn" fxLayoutAlign="center center" color="accent" matTooltip=" Out of Stock / Notify Me" (click)="OutofStockDialog()">
+                            Out of Stock 
+                          </button>
+                      </div> 
+                </div>
+                <div class="2" fxLayout="row wrap" fxFlex="100" *ngIf="pi.quantity>0">
+                    <div fxFlex="100" fxLayout="row wrap">
+
+                        <div fxFlex="25">
+
+                        </div>
+                        <div fxFlex="50" fxLayout="row wrap">
+                            <div  fxFlex="33.33" fxLayoutAlign="center center">
+                                <button fxLayoutAlign="center center" mat-icon-button class="ml-xs overflow-visible BlackColor"  id="decrease"
+                                (click)="quantityChanger(pi,-1,pi.id,i)" value="Decrease Value" >
+                                  <i class="material-icons">remove</i>
+                                </button>
+                            </div>
+                           
+                            <div fxFlex="33.33" fxLayoutAlign="center center" style="padding-top: 15px;padding-left:8px;">
+                              <h3 matBadgePosition="below before" class="BlackColor" matBadge="{{pi.count}}"></h3>
+                            </div>
+                            <div fxFlex="33.33" fxLayoutAlign="center center">
+                                <button  mat-icon-button class="ml-xs overflow-visible BlackColor" id="increase"
+                                (click)="quantityChanger(pi,1,pi.id,i)" value="Increase Value" fxLayoutAlign="center center">
+                                  <i class="material-icons">add</i>
+                                </button>
+                            </div>
+                          </div>
+                          <div fxFlex="25">
+                          
+                            </div>
+
+                      </div>
+
+ 
+
+                  <div fxFlex="100" fxLayoutAlign="center center">
+                      <button mat-raised-button class="DarkRedOutlineBtn" matTooltip="Add to cart" (click)="AddToCart(pi)">
+                        <i class="material-icons">shopping_cart</i>
+                        Add to Cart
+                      </button>
+                  </div>
+                </div>
+              </mat-card>
+            </div>
+          <!-- </div> -->
+          </div>
+          <div fxLayout="row wrap" *ngIf="productCategoryinfo==null">
+            <p style="margin:3% ;font-size:130%;opacity: 0.5;  ">No Products yet... </p>
+          </div>
+          <!-- <mat-paginator firstPageLabel="First" (page)="GetNextRecords(0,$event)" [length]="ProductViewCount" [pageSize]="16" [showFirstLastButtons]="true"></mat-paginator> -->
+
+        </mat-card-content>
+      </div>
+
+    </div>
+  </div>
+</div>
